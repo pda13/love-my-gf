@@ -1,0 +1,4 @@
+env: "local"
+application_name: order-service
+grpc_server:
+  port: ${GRPC_SERVER_PORT}

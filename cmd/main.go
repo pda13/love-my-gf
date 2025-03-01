@@ -35,7 +35,7 @@ func main() {
 
 	go func(app *app.App) {
 		if err := app.Server.Run(); err != nil {
-			logger.Error("error occurred while running a gRPC server", logging.Error(err))
+			logger.Error("error occurred while running a gRPC api", logging.Error(err))
 			os.Exit(1)
 		}
 	}(application)
@@ -45,5 +45,5 @@ func main() {
 	<-stopSignalChannel
 
 	application.Server.GracefulStop()
-	logger.Info("server gracefully stopped")
+	logger.Info("api gracefully stopped")
 }

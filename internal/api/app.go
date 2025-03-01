@@ -1,11 +1,11 @@
-package server
+package api
 
 import (
 	"errors"
 	"fmt"
+	orderServer "github.com/pda13/love-my-gf/internal/api/order"
 	"github.com/pda13/love-my-gf/internal/config"
 	grpcmw "github.com/pda13/love-my-gf/internal/middleware/grpc"
-	orderServer "github.com/pda13/love-my-gf/internal/server/order"
 	"github.com/pda13/love-my-gf/internal/service/order"
 	"google.golang.org/grpc"
 	"log/slog"
@@ -14,7 +14,7 @@ import (
 
 var (
 	errStartingTcpConnection = errors.New("unable to start tcp connection")
-	errStartingServer        = errors.New("unable to start gRPC server")
+	errStartingServer        = errors.New("unable to start gRPC api")
 )
 
 type Server struct {
@@ -50,7 +50,7 @@ func (server *Server) Run() error {
 		return errStartingTcpConnection
 	}
 
-	server.logger.Info("gRPC server is running", slog.String("address", listener.Addr().String()))
+	server.logger.Info("gRPC api is running", slog.String("address", listener.Addr().String()))
 	if err := server.server.Serve(listener); err != nil {
 		return errStartingServer
 	}
@@ -59,6 +59,6 @@ func (server *Server) Run() error {
 }
 
 func (server *Server) GracefulStop() {
-	server.logger.Info("gracefully stopping gRPC server...")
+	server.logger.Info("gracefully stopping gRPC api...")
 	server.server.GracefulStop()
 }

@@ -19,3 +19,21 @@ tasks:
         cmds:
             - go clean -testcache
             - gotestsum --format-hide-empty-pkg --format-icons hivis -- -coverprofile=cover.out ./...
+    goose-up-local:
+        desc: "Up all migrations"
+        cmds:
+            - |
+                env \
+                GOOSE_DRIVER=postgres \
+                GOOSE_DBSTRING="postgres://user:password@localhost:5432/order_service_db?sslmode=disable" \
+                GOOSE_MIGRATION_DIR=migrations \
+                goose up
+    goose-down-local:
+        desc: "Down all migrations"
+        cmds:
+            - |
+                env \
+                GOOSE_DRIVER=postgres \
+                GOOSE_DBSTRING="postgres://user:password@localhost:5432/order_service_db?sslmode=disable" \
+                GOOSE_MIGRATION_DIR=migrations \
+                goose down

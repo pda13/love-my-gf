@@ -95,7 +95,7 @@ func (c *orderServiceClient) ListOrders(ctx context.Context, in *ListOrdersReque
 	return out, nil
 }
 
-// OrderServiceServer is the api API for OrderService service.
+// OrderServiceServer is the server API for OrderService service.
 // All implementations must embed UnimplementedOrderServiceServer
 // for forward compatibility.
 type OrderServiceServer interface {

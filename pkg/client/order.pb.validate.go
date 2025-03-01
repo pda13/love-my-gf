@@ -35,6 +35,9 @@ var (
 	_ = sort.Sort
 )
 
+// define the regex for a UUID once up-front
+var _order_uuidPattern = regexp.MustCompile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+
 // Validate checks the field values on Order with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -56,10 +59,11 @@ func (m *Order) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetId()) < 1 {
-		err := OrderValidationError{
+	if err := m._validateUuid(m.GetId()); err != nil {
+		err = OrderValidationError{
 			field:  "Id",
-			reason: "value length must be at least 1 runes",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
 		if !all {
 			return err
@@ -91,6 +95,14 @@ func (m *Order) validate(all bool) error {
 
 	if len(errors) > 0 {
 		return OrderMultiError(errors)
+	}
+
+	return nil
+}
+
+func (m *Order) _validateUuid(uuid string) error {
+	if matched := _order_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
 	}
 
 	return nil
@@ -312,10 +324,11 @@ func (m *CreateOrderResponse) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetId()) < 1 {
-		err := CreateOrderResponseValidationError{
+	if err := m._validateUuid(m.GetId()); err != nil {
+		err = CreateOrderResponseValidationError{
 			field:  "Id",
-			reason: "value length must be at least 1 runes",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
 		if !all {
 			return err
@@ -325,6 +338,14 @@ func (m *CreateOrderResponse) validate(all bool) error {
 
 	if len(errors) > 0 {
 		return CreateOrderResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+func (m *CreateOrderResponse) _validateUuid(uuid string) error {
+	if matched := _order_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
 	}
 
 	return nil
@@ -425,10 +446,11 @@ func (m *GetOrderRequest) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetId()) < 1 {
-		err := GetOrderRequestValidationError{
+	if err := m._validateUuid(m.GetId()); err != nil {
+		err = GetOrderRequestValidationError{
 			field:  "Id",
-			reason: "value length must be at least 1 runes",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
 		if !all {
 			return err
@@ -438,6 +460,14 @@ func (m *GetOrderRequest) validate(all bool) error {
 
 	if len(errors) > 0 {
 		return GetOrderRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+func (m *GetOrderRequest) _validateUuid(uuid string) error {
+	if matched := _order_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
 	}
 
 	return nil
@@ -676,10 +706,11 @@ func (m *UpdateOrderRequest) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetId()) < 1 {
-		err := UpdateOrderRequestValidationError{
+	if err := m._validateUuid(m.GetId()); err != nil {
+		err = UpdateOrderRequestValidationError{
 			field:  "Id",
-			reason: "value length must be at least 1 runes",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
 		if !all {
 			return err
@@ -711,6 +742,14 @@ func (m *UpdateOrderRequest) validate(all bool) error {
 
 	if len(errors) > 0 {
 		return UpdateOrderRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+func (m *UpdateOrderRequest) _validateUuid(uuid string) error {
+	if matched := _order_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
 	}
 
 	return nil
@@ -953,10 +992,11 @@ func (m *DeleteOrderRequest) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetId()) < 1 {
-		err := DeleteOrderRequestValidationError{
+	if err := m._validateUuid(m.GetId()); err != nil {
+		err = DeleteOrderRequestValidationError{
 			field:  "Id",
-			reason: "value length must be at least 1 runes",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
 		if !all {
 			return err
@@ -966,6 +1006,14 @@ func (m *DeleteOrderRequest) validate(all bool) error {
 
 	if len(errors) > 0 {
 		return DeleteOrderRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+func (m *DeleteOrderRequest) _validateUuid(uuid string) error {
+	if matched := _order_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
 	}
 
 	return nil
